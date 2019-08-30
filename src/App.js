@@ -40,15 +40,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <p>Hello!</p>
-          <p>DeepNeuroBoun</p>
-          <p>{this.state.python}</p>
-          <button onClick={this.handleOnClick}>Send!</button>
-        </header>
-        <HomePage />
-      </div>
+      <HomePage />
     );
   }
 }

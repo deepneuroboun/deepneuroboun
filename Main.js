@@ -26,7 +26,7 @@ function createWindow () {
 }
 
 ipcMain.on(CATCH_ON_MAIN, (event, arg) => {
-  PythonShell.run(path.join(__dirname, pythonDir, 'nope.py'), null, (err, results) => {
+  PythonShell.run(path.join(__dirname, pythonDir, 'density.py'), null, (err, results) => {
     if (err) throw err;
     win.send(SEND_TO_RENDERER, results);
   });
