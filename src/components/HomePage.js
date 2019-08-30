@@ -5,14 +5,10 @@ class HomePage extends Component {
   render() {
     return (
       <body className='Home-page'>
-        <div className='Home-page-item'>OFT</div>
-        <div className='Home-page-item'>Other</div>
-        <div className='Home-page-item'>Other</div>
-        <div className='Home-page-item'>Other</div>
-        <div className='Home-page-item'>Other</div>
-        <div className='Home-page-item'>Other</div>
-        <div className='Home-page-item'>Other</div>
-        <div className='Home-page-item'>Other</div>
+        <div className='Home-page-item OFT'>Open Field Test</div>
+        <div className='Home-page-item'>EPM</div>
+        <div className='Home-page-item'>FST</div>
+        <div className='Home-page-item'>WYM</div>
       </body>
     );
   }
