@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import HomePage from './components/HomePage';
+import TaskPage from './components/TaskPage';
 
 
 const {
@@ -16,9 +17,11 @@ class App extends Component {
     super(props);
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleRenderer = this.handleRenderer.bind(this);
+    this.changeSetting = this.changeSetting.bind(this);
 
     this.state = {
       python: 'empty',
+      currentTask: 'empty',
     };
   }
 
@@ -38,10 +41,21 @@ class App extends Component {
     ipcRenderer.send(CATCH_ON_MAIN, 'ping');
   }
 
+  changeSetting(newTask) {
+    this.setState({
+      currentTask: newTask,
+    });
+  }
+
   render() {
-    return (
-      <HomePage />
-    );
+    if (this.state.currentTask === 'empty')
+      return (
+        <HomePage changeSetting={this.changeSetting}/>
+      );
+    else
+      return (
+        <TaskPage currentTask={this.state.currentTask} />
+      );
   }
 }
 
