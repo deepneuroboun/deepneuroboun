@@ -1,14 +1,8 @@
 const path = require("path");
+const zmq = require("zeromq");
 
 const { app, BrowserWindow, ipcMain } = require("electron");
-const { PythonShell } = require("python-shell");
-const {
-  CATCH_ON_MAIN,
-  SEND_TO_RENDERER,
-  NEW_PROJECT,
-  NEW_PROJECT_RENDERER
-} = require("./src/utils/constants");
-const pythonDir = "./src/python";
+const { CATCH_ON_MAIN, NEW_PROJECT } = require("./src/utils/constants");
 
 let win;
 
@@ -27,30 +21,27 @@ function createWindow() {
   win.loadURL("http://localhost:3000");
 }
 
-ipcMain.on(CATCH_ON_MAIN, (event, arg) => {
-  let options = {
-    mode: "text",
-    scriptPath: path.join(__dirname, pythonDir),
-    args: arg
-  };
+// event Manager Part for Electron
+// Electron Main js part is the backend side of the project. It is related to the file
+// management and proxy.
+async function run(fname) {
+  const sock = new zmq.Request();
+  sock.connect("tcp://127.0.0.1:3001");
+  console.log("Producer bound to port 3001");
 
-  PythonShell.run("density.py", options, (err, results) => {
-    if (err) throw err;
-    win.send(SEND_TO_RENDERER, results);
-  });
+  await sock.send(JSON.stringify(fname));
+  const [result] = await sock.receive();
+
+  console.log(JSON.parse(result));
+}
+
+ipcMain.on(CATCH_ON_MAIN, (event, arg) => {
+  console.log(arg);
 });
 
 ipcMain.on(NEW_PROJECT, (event, arg) => {
-  let options = {
-    mode: "text",
-    scriptPath: path.join(__dirname, pythonDir),
-    args: arg
-  };
-
-  PythonShell.run("new_project.py", options, (err, results) => {
-    if (err) throw err;
-    win.send(NEW_PROJECT_RENDERER, results);
-  });
+  run(arg);
+  console.log(arg);
 });
 
 app.on("ready", createWindow);

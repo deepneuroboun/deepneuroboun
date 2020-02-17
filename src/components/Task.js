@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
+import { Link } from "@reach/router";
 
 class Task extends Component {
   render() {
-    return <Button>{this.props.taskName}</Button>;
+    return (
+      <Link to="/tasks">
+        <Button>{this.props.taskName}</Button>
+      </Link>
+    );
   }
 }
 

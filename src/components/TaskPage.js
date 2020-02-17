@@ -1,25 +1,19 @@
-import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
-import CreateModal from './CreateModal';
+import React, { Component } from "react";
+import Button from "@material-ui/core/Button";
+// import CreateModal from "./CreateModal";
 
+import "./TaskPage.css";
 
-import './TaskPage.css';
-
-const {
-  NEW_PROJECT,
-  NEW_PROJECT_RENDERER,
-} = require('../utils/constants');
+const { NEW_PROJECT, NEW_PROJECT_RENDERER } = require("../utils/constants");
 
 const { ipcRenderer } = window;
-
 
 class TaskPage extends Component {
   constructor(props) {
     super(props);
-    this.handleOnClick = this.handleOnClick.bind(this);
     this.handleRenderer = this.handleRenderer.bind(this);
     this.state = {
-      currentState: 'belasiz bela',
+      currentState: "belasiz bela"
     };
   }
 
@@ -35,18 +29,18 @@ class TaskPage extends Component {
     this.setState({ currentState: data });
   }
 
-  handleOnClick() {
-    ipcRenderer.send(NEW_PROJECT, 'project_name');
-  }
-
-
+  handleOnClick = () => {
+    ipcRenderer.send(NEW_PROJECT, "project_name");
+  };
 
   render() {
     return (
-      <div className='Task-page'>
+      <div className="Task-page">
         <h1>{this.props.currentTask}</h1>
-        <CreateModal />
-        <Button variant="contained"> Open Project </Button>
+        <Button variant="contained"> Create Project </Button>
+        <Button variant="contained" onClick={this.handleOnClick}>
+          Open Project
+        </Button>
         <h1>{this.state.currentState}</h1>
       </div>
     );
